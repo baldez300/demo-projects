@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f3f3f3;
+    }
+    #calculator {
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 20, 220, 0.9);
+    }
+    #result {
+      width: 93%;
+      height: 60px;
+      margin-bottom: 15px;
+      font-size: 24px;
+      text-align: right;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 0 10px;
+    }
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      height: 50px;
+      font-size: 18px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #a04591;
+    }
+    button:active {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+<body>
+  <div id="calculator">
+    <input type="text" id="result" disabled />
+    <div class="button-grid">
+      <button onclick="clearResult()">C</button>
+      <button onclick="deleteLast()">←</button>
+      <button onclick="appendValue('/')">÷</button>
+      <button onclick="appendValue('*')">×</button>
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('-')">−</button>
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('+')">+</button>
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="calculateResult()">=</button>
+      <button onclick="appendValue('0')" style="grid-column: span 3;">0</button>
+      <button onclick="appendValue('.')">.</button>
+    </div>
+  </div>
+
+  <script>
+    // Adds numbers and operators to the input. 
+    function appendValue(value) {
+      // It creates a reference to the calculator's input field (<input id="result" />)  
+      const resultField = document.getElementById('result');
+      const currentValue = resultField.value;
+
+      // This condition prevents multiple decimal points in a number.
+      if (value === '.' && currentValue.endsWith('.')) return;
+
+      // It updates the input field by appending a new number or operator (passed as value)
+      resultField.value += value;
+    }
+
+    // Resets the display to empty.
+    function clearResult() {
+      document.getElementById('result').value = '';
+    }
+
+    // Removes the last character from the input.
+    function deleteLast() {
+      const resultField = document.getElementById('result');
+
+      // Extracts a substring from the beginning (0) up to, but excluding, the last character (-1).
+      // It removes the last character of the displayed value, implementing the backspace functionality.
+      // It mimics the natural flow of undoing input character-by-character.
+      resultField.value = resultField.value.slice(0, -1);
+    }
+
+    // Uses eval() function to compute the mathematical expression entered by the user.
+    function calculateResult() {
+      const resultField = document.getElementById('result');
+      try {
+        // If the expression is valid, evaluate it and display the result OR an empty string.
+        resultField.value = eval(resultField.value) || '';
+      } catch {
+        // If an error occurs, display 'Error' in the input field.
+        resultField.value = 'Error';
+      }
+    }
+  </script>
+</body>
+</html>
